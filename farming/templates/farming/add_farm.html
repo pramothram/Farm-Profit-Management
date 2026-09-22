@@ -1,0 +1,173 @@
+{% extends 'farming/base.html' %}
+
+{% block title %}Add Farm | FarmProfit{% endblock %}
+
+{% block content %}
+
+<div class="farm-form-page">
+
+    <div class="farm-form-container">
+
+        <div class="farm-form-header">
+
+            <a href="{% url 'dashboard' %}" class="back-button">
+                ← Dashboard
+            </a>
+
+            <div class="farm-form-icon">
+                🌱
+            </div>
+
+            <span class="form-label">
+                FARM MANAGEMENT
+            </span>
+
+            <h1>
+                Add New Farm
+            </h1>
+
+            <p>
+                Enter your farm details to start tracking
+                your farming expenses and profit.
+            </p>
+
+        </div>
+
+
+        <form method="POST" class="farm-form">
+
+            {% csrf_token %}
+
+
+            {% if form.errors %}
+
+                <div class="form-error">
+                    Please correct the errors below.
+                </div>
+
+            {% endif %}
+
+
+            <div class="form-row">
+
+                <div class="form-field">
+
+                    <label>
+                        Crop Name
+                    </label>
+
+                    {{ form.crop_name }}
+
+                    {% if form.crop_name.errors %}
+                        <small>{{ form.crop_name.errors }}</small>
+                    {% endif %}
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label>
+                        Land Size
+                    </label>
+
+                    {{ form.land_size }}
+
+                    {% if form.land_size.errors %}
+                        <small>{{ form.land_size.errors }}</small>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-field">
+
+                    <label>
+                        Land Unit
+                    </label>
+
+                    {{ form.land_unit }}
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label>
+                        Planting Date
+                    </label>
+
+                    {{ form.planting_date }}
+
+                </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-field">
+
+                    <label>
+                        Expected Harvest Date
+                    </label>
+
+                    {{ form.expected_harvest_date }}
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label>
+                        Farm Location
+                    </label>
+
+                    {{ form.location }}
+
+                </div>
+
+            </div>
+
+
+            <div class="farm-form-info">
+
+                <span>
+                    💡
+                </span>
+
+                <p>
+                    You can add your daily farming expenses
+                    after creating this farm.
+                </p>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="save-farm-button"
+            >
+                🌱 Save Farm
+            </button>
+
+
+            <a
+                href="{% url 'dashboard' %}"
+                class="cancel-button"
+            >
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

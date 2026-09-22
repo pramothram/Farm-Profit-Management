@@ -1,0 +1,516 @@
+{% extends 'farming/base.html' %}
+
+{% block title %}Dashboard | FarmProfit{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-page">
+
+    <!-- =========================
+         SIDEBAR
+    ========================== -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-logo">
+
+            <div class="sidebar-logo-icon">
+                🌾
+            </div>
+
+            <div>
+                <strong>FarmProfit</strong>
+                <small>Farmer Management</small>
+            </div>
+
+        </div>
+
+
+        <nav class="sidebar-nav">
+
+            <a href="{% url 'dashboard' %}" class="nav-item active">
+                <span>🏠</span>
+                
+                Dashboard
+            </a>
+
+            <a href="{% url 'my_farms' %}" class="nav-item">    
+                <span>🌱</span>
+                My Farms
+            </a>
+
+         {% if farms %}
+
+<a href="{% url 'harvest_details' farms.0.id %}" class="nav-item">
+    <span>🌾</span>
+    Harvest
+</a>
+
+<a href="{% url 'profit_loss' farms.0.id %}" class="nav-item">
+    <span>📊</span>
+    Profit & Loss
+</a>
+
+{% else %}
+
+<a href="{% url 'add_farm' %}" class="nav-item">
+    <span>🌾</span>
+    Add Farm
+</a>
+
+{% endif %}
+           
+        </nav>
+
+
+        <div class="sidebar-bottom">
+
+            <a href="{% url 'settings_page' %}" class="nav-item">
+                <span>⚙️</span>
+                Settings
+            </a>
+
+            <a href="{% url 'logout' %}" class="nav-item logout-link">
+                <span>🚪</span>
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================== -->
+
+    <main class="dashboard-main">
+
+
+        <!-- TOP BAR -->
+
+        <header class="dashboard-header">
+
+            <div>
+
+                <p class="welcome-small">
+                    Farmer Dashboard
+                </p>
+
+                <h1>
+                    Welcome, {{ request.user.username }} 👋
+                </h1>
+
+                <p class="dashboard-description">
+                    Manage your crops, expenses and farming profit
+                    from one place.
+                </p>
+
+            </div>
+
+
+            <div class="user-profile">
+
+                <div class="user-avatar">
+                    {{ request.user.username|first|upper }}
+                </div>
+
+                <div class="user-info">
+
+                    <strong>
+                        {{ request.user.username }}
+                    </strong>
+
+                    <span>
+                        Farmer
+                    </span>
+
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- =========================
+             ACTION BUTTONS
+        ========================== -->
+
+        <div class="dashboard-actions">
+
+<a href="{% url 'add_farm' %}" class="action-button primary-action">                <span>＋</span>
+                Add New Farm
+            </a>
+
+            
+        </div>
+
+
+        <!-- =========================
+             STAT CARDS
+        ========================== -->
+
+        <section class="stats-grid">
+
+
+            <!-- FARMS -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon farm-icon">
+                    🌱
+                </div>
+
+                <div class="stat-content">
+
+                    <span>Total Farms</span>
+
+                    <h2>
+                        {{ total_farms }}
+                    </h2>
+
+                    <small>
+                        Active farming projects
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- EXPENSE -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon expense-icon">
+                    💸
+                </div>
+
+                <div class="stat-content">
+
+                    <span>Total Expenses</span>
+
+                    <h2>
+                        ₹{{ total_expenses|floatformat:2 }}
+                    </h2>
+
+                    <small>
+                        Farming investment
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- INCOME -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon income-icon">
+                    💰
+                </div>
+
+                <div class="stat-content">
+
+                    <span>Total Income</span>
+
+                    <h2>
+                        ₹{{ total_income|floatformat:2 }}
+                    </h2>
+
+                    <small>
+                        Harvest earnings
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROFIT -->
+
+            <div class="stat-card">
+
+                <div class="stat-icon profit-icon">
+                    📈
+                </div>
+
+                <div class="stat-content">
+
+                    <span>Total Profit</span>
+
+                    <h2>
+                        ₹{{ profit|floatformat:2 }}
+                    </h2>
+
+                    <small>
+                        Your farming profit
+                    </small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             PROFIT / LOSS BANNER
+        ========================== -->
+
+        {% if profit > 0 %}
+
+        <div class="result-banner profit-banner">
+
+            <div class="result-icon">
+                📈
+            </div>
+
+            <div>
+
+                <span>Current Farming Result</span>
+
+                <h2>
+                    ₹{{ profit|floatformat:2 }} Profit
+                </h2>
+
+                <p>
+                    Your farming income is currently higher
+                    than your total expenses.
+                </p>
+
+            </div>
+
+        </div>
+
+        {% elif loss > 0 %}
+
+        <div class="result-banner loss-banner">
+
+            <div class="result-icon">
+                📉
+            </div>
+
+            <div>
+
+                <span>Current Farming Result</span>
+
+                <h2>
+                    ₹{{ loss|floatformat:2 }} Loss
+                </h2>
+
+                <p>
+                    Your current expenses are higher than
+                    your farming income.
+                </p>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <div class="result-banner neutral-banner">
+
+            <div class="result-icon">
+                
+            </div>
+
+            <div>
+
+                <span>Current Farming Result</span>
+
+                <h2>
+                    No Profit or Loss Yet
+                </h2>
+
+                <p>
+                    Add your farm, daily expenses and harvest
+                    details to calculate your result.
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- =========================
+             MY FARMS
+        ========================== -->
+
+        <section class="dashboard-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <span class="section-label">
+                        FARM MANAGEMENT
+                    </span>
+
+                    <h2>
+                        My Farms 🌱
+                    </h2>
+
+                </div>
+
+                <a href="#" class="view-all">
+                    View All →
+                </a>
+
+            </div>
+
+
+            {% if farms %}
+
+            <div class="farm-grid">
+
+                {% for farm in farms %}
+
+                <div class="farm-card">
+
+                    <div class="farm-card-top">
+
+                        <div class="crop-icon">
+                            🌱
+                        </div>
+
+                        <span class="farm-status">
+                            Active
+                        </span>
+
+                    </div>
+
+
+                    <h3>
+                        {{ farm.crop_name }}
+                    </h3>
+
+
+                    <div class="farm-details">
+
+                        <div>
+                            <span>Land</span>
+                            <strong>
+                                {{ farm.land_size }}
+                                {{ farm.land_unit }}
+                            </strong>
+                        </div>
+
+                        <div>
+                            <span>Planting Date</span>
+                            <strong>
+                                {{ farm.planting_date }}
+                            </strong>
+                        </div>
+
+                    </div>
+
+
+                    <a
+    href="{% url 'farm_details' farm.id %}"
+    class="..."
+>
+    View Farm Details →
+</a>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-state">
+
+                <div class="empty-icon">
+                    🌱
+                </div>
+
+                <h3>
+                    No farms added yet
+                </h3>
+
+                <p>
+                    Start by creating your first farm
+                    and tracking your farming expenses.
+                </p>
+
+<a href="{% url 'add_farm' %}" class="primary-small-button">                    + Add Your First Farm
+                </a>
+
+            </div>
+
+            {% endif %}
+
+        </section>
+
+
+        <!-- =========================
+             QUICK INFORMATION
+        ========================== -->
+
+        <section class="info-grid">
+
+            <div class="info-card">
+
+                <div class="info-card-icon">
+                    📝
+                </div>
+
+                <div>
+
+                    <h3>
+                        Daily Expense Tracking
+                    </h3>
+
+                    <p>
+                        Record what you spend every day,
+                        including seeds, fertilizer, labour,
+                        machinery and more.
+                    </p>
+
+                   
+
+                </div>
+
+            </div>
+
+
+            <div class="info-card">
+
+                <div class="info-card-icon">
+                    📊
+                </div>
+
+                <div>
+
+                    <h3>
+                        Know Your Profit
+                    </h3>
+
+                    <p>
+                        Enter your harvest details and
+                        automatically calculate your
+                        farming profit or loss.
+                    </p>
+
+                   
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+    </main>
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,144 @@
+{% extends 'farming/base.html' %}
+
+{% block title %}Add Expense | FarmProfit{% endblock %}
+
+{% block content %}
+
+<div class="farm-form-page">
+
+    <div class="farm-form-container">
+
+        <div class="farm-form-header">
+
+            <a
+                href="{% url 'farm_details' farm.id %}"
+                class="back-button"
+            >
+                ← Back to Farm
+            </a>
+
+            <div class="farm-form-icon">
+                💰
+            </div>
+
+            <span class="form-label">
+                {{ farm.crop_name|upper }} EXPENSE
+            </span>
+
+            <h1>
+                Add Daily Expense
+            </h1>
+
+            <p>
+                Record what you spent on your farm today.
+            </p>
+
+        </div>
+
+
+        <form
+            method="POST"
+            class="farm-form"
+        >
+
+            {% csrf_token %}
+
+
+            {% if form.errors %}
+
+                <div class="form-error">
+                    Please correct the errors below.
+                </div>
+
+            {% endif %}
+
+
+            <div class="form-field">
+
+                <label>
+                    Date
+                </label>
+
+                {{ form.date }}
+
+            </div>
+
+
+            <br>
+
+
+            <div class="form-field">
+
+                <label>
+                    Purpose
+                </label>
+
+                {{ form.purpose }}
+
+            </div>
+
+
+            <br>
+
+
+            <div class="form-field">
+
+                <label>
+                    Amount (₹)
+                </label>
+
+                {{ form.amount }}
+
+            </div>
+
+
+            <br>
+
+
+            <div class="form-field">
+
+                <label>
+                    Notes
+                </label>
+
+                {{ form.notes }}
+
+            </div>
+
+
+            <div class="farm-form-info">
+
+                <span>
+                    💡
+                </span>
+
+                <p>
+                    Add every farming expense regularly so your
+                    final profit and loss calculation is accurate.
+                </p>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="save-farm-button"
+            >
+                💾 Save Expense
+            </button>
+
+
+            <a
+                href="{% url 'farm_details' farm.id %}"
+                class="cancel-button"
+            >
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,203 @@
+{% extends 'farming/base.html' %}
+
+{% block title %}{{ farm.crop_name }} | FarmProfit{% endblock %}
+
+{% block content %}
+
+<div class="farm-details-page">
+
+    <div class="farm-details-container">
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="add-farm-btn"
+        >
+            ← Back to Dashboard
+        </a>
+
+
+        <!-- FARM HEADER -->
+
+        <div class="farm-details-header">
+
+            <div>
+
+                <span class="form-label">
+                    MY FARM
+                </span>
+
+                <h1>
+                     {{ farm.crop_name }}
+                </h1>
+
+                <p>
+                    {{ farm.land_size }}
+                    {{ farm.land_unit }}
+                    {% if farm.location %}
+                        • {{ farm.location }}
+                    {% endif %}
+                </p>
+
+            </div>
+
+
+         <div style="display:flex; gap:10px;">
+
+    <a
+        href="{% url 'profit_loss' farm.id %}"
+        class="save-farm-button expense-button"
+    >
+        📊 Profit & Loss
+    </a>
+
+    <a
+        href="{% url 'add_expense' farm.id %}"
+        class="save-farm-button expense-button"
+    >
+        + Add Expense
+    </a>
+
+</div>
+        </div>
+
+
+        <!-- SUMMARY -->
+
+        <div class="expense-summary">
+
+            <div class="summary-card">
+
+                <span>
+                    💰
+                </span>
+
+                <div>
+                    <small>
+                        TOTAL EXPENSES
+                    </small>
+
+                    <strong>
+                        ₹{{ total_expenses|floatformat:2 }}
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <span>
+                    📋
+                </span>
+
+                <div>
+                    <small>
+                        EXPENSE RECORDS
+                    </small>
+
+                    <strong>
+                        {{ expenses|length }}
+                    </strong>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- EXPENSE LIST -->
+
+        <div class="expense-section">
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Daily Expenses
+                    </h2>
+
+                    <p>
+                        Track every expense for this farm.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {% if expenses %}
+
+                <div class="expense-list">
+
+                    {% for expense in expenses %}
+
+                        <div class="expense-item">
+
+                            <div class="expense-date">
+                                {{ expense.date|date:"d M Y" }}
+                            </div>
+
+
+                            <div class="expense-purpose">
+
+                                <strong>
+                                    {{ expense.purpose }}
+                                </strong>
+
+                                {% if expense.notes %}
+                                    <small>
+                                        {{ expense.notes }}
+                                    </small>
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="expense-amount">
+
+                                - ₹{{ expense.amount|floatformat:2 }}
+
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                </div>
+
+            {% else %}
+
+                <div class="empty-expenses">
+
+                    <div>
+                        📝
+                    </div>
+
+                    <h3>
+                        No expenses yet
+                    </h3>
+
+                    <p>
+                        Start recording your daily farming expenses.
+                    </p>
+
+                    <a
+                        href="{% url 'add_expense' farm.id %}"
+                        class="save-farm-button"
+                    >
+                        + Add First Expense
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

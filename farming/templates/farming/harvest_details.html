@@ -1,0 +1,186 @@
+{% extends 'farming/base.html' %}
+
+{% block title %}Harvest Details | FarmProfit{% endblock %}
+
+{% block content %}
+
+<div class="harvest-page">
+
+    <div class="harvest-container">
+
+        <!-- Back -->
+         <a
+            href="{% url 'dashboard' %}"
+            class="add-farm-btn"
+        >
+            ← Back to Dashboard
+        </a>
+
+
+        <!-- Header -->
+        <div class="harvest-header">
+
+            <div class="harvest-big-icon">
+                🌾
+            </div>
+
+            <div>
+                <div class="harvest-label">
+                    FARM HARVEST RECORD
+                </div>
+
+                <h1>Harvest Details</h1>
+
+                <p>
+                    {{ farm.crop_name }} · {{ farm.land_size }}
+                    {{ farm.land_unit }}
+                </p>
+            </div>
+
+        </div>
+
+
+        {% if harvest %}
+
+        <!-- Main Harvest Card -->
+        <div class="harvest-main-card">
+
+            <div class="harvest-card-top">
+
+                <div>
+                    <span class="harvest-small-label">
+                        HARVEST DATE
+                    </span>
+
+                    <h2>
+                        {{ harvest.date|date:"d M Y" }}
+                    </h2>
+                </div>
+
+                <div class="harvest-status">
+                    ✓ Completed
+                </div>
+
+            </div>
+
+
+            <!-- Details -->
+            <div class="harvest-info-grid">
+
+                <div class="harvest-info-box">
+
+                    <div class="info-icon">
+                        🌾
+                    </div>
+
+                    <div>
+                        <span>Quantity</span>
+
+                        <strong>
+                            {{ harvest.quantity }}
+                            {{ harvest.unit }}
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="harvest-info-box">
+
+                    <div class="info-icon">
+                        💰
+                    </div>
+
+                    <div>
+                        <span>Selling Price</span>
+
+                        <strong>
+                            ₹{{ harvest.selling_price }}
+                            / {{ harvest.unit }}
+                        </strong>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- Income -->
+            <div class="harvest-total">
+
+                <div>
+                    <span>TOTAL HARVEST INCOME</span>
+
+                    <p>
+                        {{ harvest.quantity }}
+                        {{ harvest.unit }}
+                        × ₹{{ harvest.selling_price }}
+                    </p>
+                </div>
+
+                <strong>
+    ₹{{ total_income|floatformat:2 }}
+</strong>
+
+            </div>
+
+
+            {% if harvest.notes %}
+
+            <div class="harvest-notes">
+
+                <span>📝 Notes</span>
+
+                <p>
+                    {{ harvest.notes }}
+                </p>
+
+            </div>
+
+            {% endif %}
+
+
+            <!-- Buttons -->
+            <div class="harvest-actions">
+
+                <a href="{% url 'edit_harvest' harvest.id %}"
+                   class="harvest-edit-button">
+                    ✏️ Edit Harvest
+                </a>
+
+                <a href="{% url 'profit_loss' farm.id %}"
+                   class="harvest-back-button">
+                    ← Back
+                </a>
+
+            </div>
+
+        </div>
+
+        {% else %}
+
+        <!-- No Harvest -->
+        <div class="no-harvest-card">
+
+            <div>🌾</div>
+
+            <h2>No Harvest Added</h2>
+
+            <p>
+                You haven't added harvest information for this farm yet.
+            </p>
+
+            <a href="{% url 'add_harvest' farm.id %}"
+               class="harvest-add-button">
+                + Add Harvest
+            </a>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,171 @@
+{% extends 'farming/base.html' %}
+
+{% block title %}Settings | FarmProfit{% endblock %}
+
+{% block content %}
+
+<div class="settings-page">
+
+    <!-- Header -->
+
+    <div class="settings-header">
+
+        <div>
+            <span class="settings-label">
+                ACCOUNT SETTINGS
+            </span>
+
+            <h1>Settings ⚙️</h1>
+
+            <p>
+                Manage your FarmProfit preferences.
+            </p>
+        </div>
+
+        <a href="{% url 'dashboard' %}" class="back-dashboard">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+
+    <!-- Settings Card -->
+
+    <div class="settings-card">
+
+        <div class="settings-card-title">
+
+            <div class="settings-icon">
+                🌐
+            </div>
+
+            <div>
+                <h2>Language</h2>
+
+                <p>
+                    Choose the language you want to use.
+                </p>
+            </div>
+
+        </div>
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="language-section">
+
+                <label for="language">
+                    Select Language
+                </label>
+
+                <select
+                    name="language"
+                    id="language"
+                    class="language-select"
+                >
+
+                    <option value="en"
+                        {% if current_language == 'en' %}
+                        selected
+                        {% endif %}>
+                        🇬🇧 English
+                    </option>
+
+                    <option value="ta"
+                        {% if current_language == 'ta' %}
+                        selected
+                        {% endif %}>
+                        🇮🇳 தமிழ் (Tamil)
+                    </option>
+
+                    
+
+                </select>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="save-settings-btn"
+            >
+                💾 Save Language
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- Account Card -->
+
+    <div class="settings-card account-card">
+
+        <div class="settings-card-title">
+
+            <div class="settings-icon">
+                👤
+            </div>
+
+            <div>
+                <h2>Account</h2>
+
+                <p>
+                    Your FarmProfit account information.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="account-info">
+
+            <div class="account-row">
+
+                <span>Username</span>
+
+                <strong>
+                    {{ request.user.username }}
+                </strong>
+
+            </div>
+
+
+            <div class="account-row">
+
+                <span>Email</span>
+
+                <strong>
+                    {{ request.user.email|default:"Not provided" }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Logout -->
+
+    <div class="logout-card">
+
+        <div>
+            <h3>🚪 Logout</h3>
+
+            <p>
+                Sign out from your FarmProfit account.
+            </p>
+        </div>
+
+        <a href="{% url 'logout' %}" class="logout-btn">
+            Logout
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}

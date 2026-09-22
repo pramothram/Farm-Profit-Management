@@ -1,0 +1,170 @@
+{% extends 'farming/base.html' %}
+
+{% block title %}Add Harvest | FarmProfit{% endblock %}
+
+{% block content %}
+
+<div class="farm-form-page">
+
+    <div class="farm-form-container">
+
+        <div class="farm-form-header">
+
+            <a
+                href="{% url 'profit_loss' farm.id %}"
+                class="back-button"
+            >
+                ← Back to Profit & Loss
+            </a>
+
+            <div class="farm-form-icon">
+                🌾
+            </div>
+
+            <span class="form-label">
+                {{ farm.crop_name|upper }} HARVEST
+            </span>
+
+            <h1>
+                Add Harvest Income
+            </h1>
+
+            <p>
+                Enter the quantity harvested and selling price.
+            </p>
+
+        </div>
+
+
+        <form
+            method="POST"
+            class="farm-form"
+        >
+
+            {% csrf_token %}
+
+
+            {% if form.errors %}
+
+                <div class="form-error">
+                    Please correct the errors below.
+                </div>
+
+            {% endif %}
+
+
+            <div class="form-row">
+
+                <div class="form-field">
+
+                    <label>
+                        Harvest Date
+                    </label>
+
+                    {{ form.date }}
+
+                    {% if form.date.errors %}
+                        <small>{{ form.date.errors }}</small>
+                    {% endif %}
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label>
+                        Quantity Harvested
+                    </label>
+
+                    {{ form.quantity }}
+
+                    {% if form.quantity.errors %}
+                        <small>{{ form.quantity.errors }}</small>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="form-row">
+
+                <div class="form-field">
+
+                    <label>
+                        Unit
+                    </label>
+
+                    {{ form.unit }}
+
+                    {% if form.unit.errors %}
+                        <small>{{ form.unit.errors }}</small>
+                    {% endif %}
+
+                </div>
+
+
+                <div class="form-field">
+
+                    <label>
+                        Selling Price (₹ per unit)
+                    </label>
+
+                    {{ form.selling_price }}
+
+                    {% if form.selling_price.errors %}
+                        <small>{{ form.selling_price.errors }}</small>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+
+            <div class="form-field">
+
+                <label>
+                    Notes
+                </label>
+
+                {{ form.notes }}
+
+            </div>
+
+
+            <!-- LIVE INCOME PREVIEW -->
+
+            <div class="income-preview">
+
+                <div class="income-preview-icon">
+                    
+                </div>
+
+               
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="save-farm-button harvest-save-button"
+            >
+                🌾 Save Harvest Income
+            </button>
+
+
+            <a
+                href="{% url 'profit_loss' farm.id %}"
+                class="cancel-button"
+            >
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

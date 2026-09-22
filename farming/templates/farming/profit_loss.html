@@ -1,0 +1,241 @@
+
+{% extends 'farming/base.html' %}
+
+{% block title %}Profit & Loss | FarmProfit{% endblock %}
+
+{% block content %}
+
+<div class="profit-page">
+
+    <div class="profit-container">
+
+         <a
+            href="{% url 'dashboard' %}"
+            class="add-farm-btn">
+            ← Back to Dashboard
+        </a>
+<br>
+        <div class="profit-header">
+
+            <div class="profit-icon">
+                📊
+            </div>
+
+            <span class="form-label">
+                FARM FINANCIAL REPORT
+            </span>
+
+            <h1>
+                Profit & Loss
+            </h1>
+
+            <p>
+                {{ farm.crop_name }} •
+                {{ farm.land_size }} {{ farm.land_unit }}
+            </p>
+
+        </div>
+
+
+        <!-- SUMMARY -->
+
+        <div class="profit-cards">
+
+            <div class="profit-card">
+
+                <span class="card-icon">
+                    💰
+                </span>
+
+                <div>
+                    <small>
+                        TOTAL INCOME
+                    </small>
+
+                    <h2>
+                        ₹{{ total_income|floatformat:2 }}
+                    </h2>
+                </div>
+
+            </div>
+
+
+            <div class="profit-card">
+
+                <span class="card-icon">
+                    💸
+                </span>
+
+                <div>
+                    <small>
+                        TOTAL EXPENSES
+                    </small>
+
+                    <h2>
+                        ₹{{ total_expenses|floatformat:2 }}
+                    </h2>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- PROFIT RESULT -->
+
+        <div class="result-card">
+
+            {% if result == 'Profit' %}
+
+                <div class="result-icon">
+                    📈
+                </div>
+
+                <span>
+                    NET PROFIT
+                </span>
+
+                <h2>
+                    ₹{{ profit_loss_amount|floatformat:2 }}
+                </h2>
+
+                <p>
+                    Congratulations! Your farm is profitable.
+                </p>
+
+            {% elif result == 'Loss' %}
+
+                <div class="result-icon">
+                    📉
+                </div>
+
+                <span>
+                    NET LOSS
+                </span>
+
+                <h2>
+                    ₹{{ profit_loss_amount|floatformat:2 }}
+                </h2>
+
+                <p>
+                    Your expenses are higher than your income.
+                </p>
+
+            {% else %}
+
+                <div class="result-icon">
+                    ⚖️
+                </div>
+
+                <span>
+                    BREAK EVEN
+                </span>
+
+                <h2>
+                    ₹0.00
+                </h2>
+
+                <p>
+                    Your income and expenses are equal.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- CALCULATION -->
+
+        <div class="calculation-card">
+
+            <h2>
+                Calculation
+            </h2>
+
+            <div class="calculation-row">
+
+                <span>
+                    Total Income
+                </span>
+
+                <strong>
+                    ₹{{ total_income|floatformat:2 }}
+                </strong>
+
+            </div>
+
+
+            <div class="calculation-row">
+
+                <span>
+                    Total Expenses
+                </span>
+
+                <strong>
+                    − ₹{{ total_expenses|floatformat:2 }}
+                </strong>
+
+            </div>
+
+
+            <div class="calculation-line"></div>
+
+
+            <div class="calculation-row final-row">
+
+                <span>
+                    {{ result }}
+                </span>
+
+                <strong>
+                    ₹{{ profit_loss_amount|floatformat:2 }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+       <div class="report-buttons">
+
+    {% if harvests %}
+     
+        <a href="{% url 'harvest_details' farm.id %}"
+           class="action-button harvest-button">
+            🌾 View Harvest Details
+        </a>
+
+    {% else %}
+      
+        <a href="{% url 'add_harvest' farm.id %}"
+           class="action-button harvest-button">
+            🌾 Add Harvest
+        </a>
+
+    {% endif %}
+
+</div>
+<br>
+<br>
+
+            <a
+                href="{% url 'farm_details' farm.id %}"
+                class="secondary-report-button"
+            >
+                View Expenses
+            </a>
+
+            <a
+                href="{% url 'add_expense' farm.id %}"
+                class="primary-report-button"
+            >
+                + Add Expense
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}  

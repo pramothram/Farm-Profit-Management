@@ -1,0 +1,118 @@
+{% extends 'farming/base.html' %}
+
+{% block title %}My Farms | FarmProfit{% endblock %}
+
+{% block content %}
+
+
+
+<div class="my-farms-page">
+    
+
+    <div class="my-farms-header">
+        
+        <div>
+            <span class="section-label">FARM MANAGEMENT</span>
+            <h1>My Farms 🌱</h1>
+            <p>Manage all your farming projects from one place.</p>
+        </div>
+
+        <a href="{% url 'add_farm' %}" class="add-farm-btn">
+            + Add New Farm
+        </a>
+    </div>
+    
+
+
+    {% if farms %}
+
+    <div class="farm-grid">
+
+        {% for farm in farms %}
+
+        <div class="farm-management-card">
+
+            <div class="farm-card-top">
+
+                <div class="farm-icon">
+                    🌱
+                </div>
+
+                <span class="farm-status">
+                    Active
+                </span>
+
+            </div>
+
+            <h2>{{ farm.crop_name }}</h2>
+
+            <div class="farm-info">
+
+                <div>
+                    <span>Land</span>
+                    <strong>
+                        {{ farm.land_size }} {{ farm.land_unit }}
+                    </strong>
+                </div>
+
+                <div>
+                    <span>Planting Date</span>
+                    <strong>
+                        {{ farm.planting_date|date:"M d, Y" }}
+                    </strong>
+                </div>
+<br>
+            </div>
+
+            <div class="farm-actions">
+
+                <a href="{% url 'farm_details' farm.id %}">
+                    View Farm Details →
+                </a>
+<br>
+<br>
+                <a href="{% url 'profit_loss' farm.id %}">
+                    Profit & Loss
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-farms">
+
+        <div class="empty-icon">🌱</div>
+
+        <h2>No Farms Added Yet</h2>
+
+        <p>Start by creating your first farming project.</p>
+
+        <a href="{% url 'add_farm' %}" class="add-farm-btn">
+            + Add Your First Farm
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</div>
+<div class="farm-details-page">
+
+    <div class="farm-details-container">
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="add-farm-btn"
+        >
+            ← Back to Dashboard
+        </a>
+    </div>
+</div>
+
+{% endblock %}

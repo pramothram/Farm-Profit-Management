@@ -1,0 +1,191 @@
+{% extends 'farming/base.html' %}
+
+{% block title %}Register | FarmProfit{% endblock %}
+
+{% block content %}
+
+<div class="auth-page">
+
+    <div class="auth-left">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🌾
+            </div>
+
+            <span>FarmProfit</span>
+
+        </div>
+
+        <div class="hero-content">
+
+            <h1>
+                Start managing
+                <span>your farm today.</span>
+            </h1>
+
+            <p>
+                Create your farmer account and keep
+                all your farming expenses and income
+                organized in one place.
+            </p>
+
+            <div class="feature-list">
+
+                <div class="feature">
+                    <span>✓</span>
+                    Record expenses every day
+                </div>
+
+                <div class="feature">
+                    <span>✓</span>
+                    Track your crop
+                </div>
+
+                <div class="feature">
+                    <span>✓</span>
+                    Calculate profit automatically
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="auth-right">
+
+        <div class="auth-card register-card">
+
+            <div class="mobile-logo">
+                🌾 FarmProfit
+            </div>
+
+            <h2>Create Account</h2>
+
+            <p class="auth-subtitle">
+                Start tracking your farming journey
+            </p>
+
+
+            {% if form.errors %}
+
+                <div class="error-box">
+                    Please correct the errors below.
+                </div>
+
+            {% endif %}
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <div class="input-group">
+
+                    <label>Username</label>
+
+                    {{ form.username }}
+
+                    {% for error in form.username.errors %}
+                        <small class="field-error">
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Email</label>
+
+                    {{ form.email }}
+
+                    {% for error in form.email.errors %}
+                        <small class="field-error">
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Password</label>
+
+                    <div class="password-box">
+
+                        {{ form.password1 }}
+
+                        <button
+                            type="button"
+                            class="eye-button"
+                            onclick="togglePassword('{{ form.password1.id_for_label }}', this)"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>Confirm Password</label>
+
+                    <div class="password-box">
+
+                        {{ form.password2 }}
+
+                        <button
+                            type="button"
+                            class="eye-button"
+                            onclick="togglePassword('{{ form.password2.id_for_label }}', this)"
+                        >
+                            👁
+                        </button>
+
+                    </div>
+
+                    {% for error in form.password2.errors %}
+                        <small class="field-error">
+                            {{ error }}
+                        </small>
+                    {% endfor %}
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="primary-button"
+                >
+                    Create Account
+                </button>
+
+            </form>
+
+
+            <div class="auth-footer">
+
+                Already have an account?
+
+                <a href="{% url 'login' %}">
+                    Login
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
